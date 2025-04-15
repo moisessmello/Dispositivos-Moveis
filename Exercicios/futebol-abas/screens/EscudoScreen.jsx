@@ -3,6 +3,7 @@ import { Text, Card, Title, Paragraph } from 'react-native-paper'
 import React from 'react'
 
 export default function EscudoScreen() {
+    
   return (
     <View style={styles.container}>
     <Text variant='headlineLarge' style={{ textAlign: 'center' }}>Escudo</Text>
