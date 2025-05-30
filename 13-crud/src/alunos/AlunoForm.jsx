@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button, Text, TextInput } from 'react-native-paper'
 import { TextInputMask } from 'react-native-masked-text'
+import AlunoService from './AlunoService'
 
-export default function AlunoForm() {
+export default function AlunoForm({ navigation, route}) {
 
   const [nome, setNome] = useState("")
   const [cpf, setCpf] = useState("")
@@ -11,7 +12,7 @@ export default function AlunoForm() {
   const [telefone, setTelefone] = useState("")
   const [dataNascimento, setDataNascimento] = useState("")
 
-  function salvar() {
+  async function salvar() {
     let aluno = {
       nome,
       cpf,
@@ -22,10 +23,17 @@ export default function AlunoForm() {
 
     if (!aluno.nome || !aluno.cpf || !aluno.email || !aluno.dataNascimento || !aluno.telefone) {
       alert('Preencha todos os campos!')
-    } else {
-      // gravo o aluno
+      return
+    } 
 
-    }
+      await AlunoService.salvar(aluno)
+      alert("Aluno cadastrado com sucesso!!!")
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'AlunoLista' }]
+      })
+
+
   }
 
 
