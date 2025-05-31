@@ -5,7 +5,7 @@ import AlunoService from './AlunoService'
 
 export default function AlunoLista({ navigation, route }) {
 
-  const [alunos, setAlunos] = useState([ ])
+  const [alunos, setAlunos] = useState([])
 
   useEffect(() => {
     buscarAlunos()
@@ -14,16 +14,13 @@ export default function AlunoLista({ navigation, route }) {
   async function buscarAlunos() {
     const listaAlunos = await AlunoService.listar()
     setAlunos(listaAlunos)
-    
   }
 
   async function removerAluno(id) {
     await AlunoService.remover(id)
-    alert('Aluno excluido com sucesso!!!')
+    alert('Aluno excluído com sucesso!!!')
     buscarAlunos()
-    
   }
-
 
   return (
     <View>
@@ -47,7 +44,7 @@ export default function AlunoLista({ navigation, route }) {
               <Text>Email: {item.email}</Text>
             </Card.Content>
             <Card.Actions>
-              <Button icon='pencil'> </Button>
+              <Button icon='pencil' onPress={() => navigation.navigate('AlunoForm', item)}> </Button>
               <Button icon='delete' onPress={() => removerAluno(item.id)}> </Button>
             </Card.Actions>
           </Card>
