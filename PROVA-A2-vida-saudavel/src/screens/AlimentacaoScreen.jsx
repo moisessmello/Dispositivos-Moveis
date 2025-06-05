@@ -1,8 +1,9 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AlimentacaoList from './AlimentacaoList';
-import AlimentacaoForm from './AlimentacaoForm';
-import AlimentacaoApi from './AlimentacaoApi';
+import AlimentacaoList from './alimentacao/AlimentacaoList';
+import AlimentacaoForm from './alimentacao/AlimentacaoForm';
+import AlimentacaoApi from './alimentacao/AlimentacaoApi';
+
 
 const Stack = createNativeStackNavigator();
 
