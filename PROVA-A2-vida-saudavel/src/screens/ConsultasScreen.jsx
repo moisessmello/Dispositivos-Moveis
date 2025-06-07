@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, Alert, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { 
-  TextInput, 
-  Button, 
-  Card, 
-  Title, 
-  Paragraph, 
-  FAB, 
-  Portal, 
-  Dialog, 
-  HelperText 
+import {
+  TextInput,
+  Button,
+  Card,
+  Title,
+  Paragraph,
+  FAB,
+  Portal,
+  Dialog,
+  HelperText,
 } from "react-native-paper";
 import { TextInputMask } from "react-native-masked-text";
 
@@ -47,8 +47,8 @@ export default function ConsultasScreen() {
     setHora("");
     setLocal("");
     setDescricao("");
-    setCurrentId(null);
     setErrors({});
+    setCurrentId(null);
   }
 
   function openDialog(item = null) {
@@ -72,11 +72,11 @@ export default function ConsultasScreen() {
 
   function validate() {
     const newErrors = {};
-    if (!medico) newErrors.medico = "Médico é obrigatório";
-    if (!data) newErrors.data = "Data é obrigatória";
-    if (!hora) newErrors.hora = "Hora é obrigatória";
-    if (!local) newErrors.local = "Local é obrigatório";
-    if (!descricao) newErrors.descricao = "Descrição é obrigatória";
+    if (!medico) newErrors.medico = "Campo obrigatório";
+    if (!data) newErrors.data = "Campo obrigatório";
+    if (!hora) newErrors.hora = "Campo obrigatório";
+    if (!local) newErrors.local = "Campo obrigatório";
+    if (!descricao) newErrors.descricao = "Campo obrigatório";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -86,7 +86,7 @@ export default function ConsultasScreen() {
 
     let newItems = [...items];
     if (currentId) {
-      newItems = newItems.map(i =>
+      newItems = newItems.map((i) =>
         i.id === currentId
           ? { id: currentId, medico, data, hora, local, descricao }
           : i
@@ -111,7 +111,7 @@ export default function ConsultasScreen() {
       {
         text: "Excluir",
         onPress: async () => {
-          const filtered = items.filter(i => i.id !== id);
+          const filtered = items.filter((i) => i.id !== id);
           await saveItems(filtered);
         },
       },
@@ -128,14 +128,17 @@ export default function ConsultasScreen() {
           <Card style={{ marginVertical: 5 }}>
             <Card.Content>
               <Title>{item.medico}</Title>
-              <Paragraph>Data: {item.data}</Paragraph>
-              <Paragraph>Hora: {item.hora}</Paragraph>
               <Paragraph>Local: {item.local}</Paragraph>
-              <Paragraph>Descrição: {item.descricao}</Paragraph>
+              <Paragraph>
+                {item.data} às {item.hora}
+              </Paragraph>
+              <Paragraph>{item.descricao}</Paragraph>
             </Card.Content>
             <Card.Actions>
               <Button onPress={() => openDialog(item)}>Editar</Button>
-              <Button onPress={() => remove(item.id)} color="red">Excluir</Button>
+              <Button onPress={() => remove(item.id)} color="red">
+                Excluir
+              </Button>
             </Card.Actions>
           </Card>
         )}
@@ -154,47 +157,37 @@ export default function ConsultasScreen() {
                 mode="outlined"
                 style={{ marginBottom: 10 }}
               />
-              <HelperText type="error" visible={!!errors.medico}>{errors.medico}</HelperText>
+              <HelperText type="error" visible={!!errors.medico}>
+                {errors.medico}
+              </HelperText>
 
               <TextInputMask
                 type={"datetime"}
                 options={{ format: "DD/MM/YYYY" }}
                 value={data}
                 onChangeText={setData}
-                style={{
-                  backgroundColor: "white",
-                  marginBottom: 10,
-                  paddingHorizontal: 12,
-                  borderRadius: 4,
-                  borderColor: errors.data ? "red" : "#AAA",
-                  borderWidth: 1,
-                  height: 56,
-                  justifyContent: "center",
-                }}
                 placeholder="Data (DD/MM/AAAA)"
-                keyboardType="numeric"
+                mode="outlined"
+                error={!!errors.data}
+                style={{ marginBottom: 10 }}
               />
-              <HelperText type="error" visible={!!errors.data}>{errors.data}</HelperText>
+              <HelperText type="error" visible={!!errors.data}>
+                {errors.data}
+              </HelperText>
 
               <TextInputMask
                 type={"custom"}
                 options={{ mask: "99:99" }}
                 value={hora}
                 onChangeText={setHora}
-                style={{
-                  backgroundColor: "white",
-                  marginBottom: 10,
-                  paddingHorizontal: 12,
-                  borderRadius: 4,
-                  borderColor: errors.hora ? "red" : "#AAA",
-                  borderWidth: 1,
-                  height: 56,
-                  justifyContent: "center",
-                }}
                 placeholder="Hora (HH:MM)"
-                keyboardType="numeric"
+                mode="outlined"
+                error={!!errors.hora}
+                style={{ marginBottom: 10 }}
               />
-              <HelperText type="error" visible={!!errors.hora}>{errors.hora}</HelperText>
+              <HelperText type="error" visible={!!errors.hora}>
+                {errors.hora}
+              </HelperText>
 
               <TextInput
                 label="Local"
@@ -204,7 +197,9 @@ export default function ConsultasScreen() {
                 mode="outlined"
                 style={{ marginBottom: 10 }}
               />
-              <HelperText type="error" visible={!!errors.local}>{errors.local}</HelperText>
+              <HelperText type="error" visible={!!errors.local}>
+                {errors.local}
+              </HelperText>
 
               <TextInput
                 label="Descrição"
@@ -215,7 +210,9 @@ export default function ConsultasScreen() {
                 multiline
                 style={{ marginBottom: 10 }}
               />
-              <HelperText type="error" visible={!!errors.descricao}>{errors.descricao}</HelperText>
+              <HelperText type="error" visible={!!errors.descricao}>
+                {errors.descricao}
+              </HelperText>
             </ScrollView>
           </Dialog.ScrollArea>
 

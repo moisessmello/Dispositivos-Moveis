@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { View, FlatList, Alert, ScrollView } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { 
-  TextInput, 
-  Button, 
-  Card, 
-  Title, 
-  Paragraph, 
-  FAB, 
-  Portal, 
-  Dialog, 
-  HelperText 
-} from "react-native-paper";
-import { TextInputMask } from "react-native-masked-text";
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, Alert, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TextInput, Button, Card, Title, Paragraph, FAB, Portal, Dialog, HelperText } from 'react-native-paper';
+import { TextInputMask } from 'react-native-masked-text';
 
-export default function ExerciciosScreen() {
+export default function ExerciciosScreen({ navigation }) {
   const [items, setItems] = useState([]);
   const [visible, setVisible] = useState(false);
   const [currentId, setCurrentId] = useState(null);
 
-  const [nome, setNome] = useState("");
-  const [duracao, setDuracao] = useState("");
-  const [data, setData] = useState("");
-  const [intensidade, setIntensidade] = useState("");
-  const [descricao, setDescricao] = useState("");
+  const [nome, setNome] = useState('');
+  const [duracao, setDuracao] = useState('');
+  const [data, setData] = useState('');
+  const [intensidade, setIntensidade] = useState('');
+  const [descricao, setDescricao] = useState('');
 
   const [errors, setErrors] = useState({});
 
@@ -32,21 +22,21 @@ export default function ExerciciosScreen() {
   }, []);
 
   async function loadItems() {
-    const stored = await AsyncStorage.getItem("exercicios");
+    const stored = await AsyncStorage.getItem('exercicios');
     if (stored) setItems(JSON.parse(stored));
   }
 
   async function saveItems(newItems) {
     setItems(newItems);
-    await AsyncStorage.setItem("exercicios", JSON.stringify(newItems));
+    await AsyncStorage.setItem('exercicios', JSON.stringify(newItems));
   }
 
   function resetForm() {
-    setNome("");
-    setDuracao("");
-    setData("");
-    setIntensidade("");
-    setDescricao("");
+    setNome('');
+    setDuracao('');
+    setData('');
+    setIntensidade('');
+    setDescricao('');
     setCurrentId(null);
     setErrors({});
   }
@@ -72,11 +62,11 @@ export default function ExerciciosScreen() {
 
   function validate() {
     const newErrors = {};
-    if (!nome) newErrors.nome = "Nome é obrigatório";
-    if (!duracao || isNaN(Number(duracao))) newErrors.duracao = "Duração deve ser número válido (minutos)";
-    if (!data) newErrors.data = "Data é obrigatória";
-    if (!intensidade) newErrors.intensidade = "Intensidade é obrigatória";
-    if (!descricao) newErrors.descricao = "Descrição é obrigatória";
+    if (!nome) newErrors.nome = 'Nome é obrigatório';
+    if (!duracao || isNaN(Number(duracao))) newErrors.duracao = 'Duração deve ser número válido (minutos)';
+    if (!data) newErrors.data = 'Data é obrigatória';
+    if (!intensidade) newErrors.intensidade = 'Intensidade é obrigatória';
+    if (!descricao) newErrors.descricao = 'Descrição é obrigatória';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -106,10 +96,10 @@ export default function ExerciciosScreen() {
   }
 
   async function remove(id) {
-    Alert.alert("Confirmar", "Deseja excluir este registro?", [
-      { text: "Cancelar" },
+    Alert.alert('Confirmar', 'Deseja excluir este registro?', [
+      { text: 'Cancelar' },
       {
-        text: "Excluir",
+        text: 'Excluir',
         onPress: async () => {
           const filtered = items.filter(i => i.id !== id);
           await saveItems(filtered);
@@ -143,7 +133,7 @@ export default function ExerciciosScreen() {
 
       <Portal>
         <Dialog visible={visible} onDismiss={closeDialog}>
-          <Dialog.Title>{currentId ? "Editar" : "Novo"} Exercício</Dialog.Title>
+          <Dialog.Title>{currentId ? 'Editar' : 'Novo'} Exercício</Dialog.Title>
           <Dialog.ScrollArea>
             <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
               <TextInput
@@ -173,14 +163,14 @@ export default function ExerciciosScreen() {
                 value={data}
                 onChangeText={setData}
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   marginBottom: 10,
                   paddingHorizontal: 12,
                   borderRadius: 4,
-                  borderColor: errors.data ? "red" : "#AAA",
+                  borderColor: errors.data ? 'red' : '#AAA',
                   borderWidth: 1,
                   height: 56,
-                  justifyContent: "center",
+                  justifyContent: 'center',
                 }}
                 placeholder="Data (DD/MM/AAAA)"
                 keyboardType="numeric"
@@ -221,7 +211,7 @@ export default function ExerciciosScreen() {
         icon="plus"
         onPress={() => openDialog()}
         style={{
-          position: "absolute",
+          position: 'absolute',
           right: 20,
           bottom: 20,
         }}
