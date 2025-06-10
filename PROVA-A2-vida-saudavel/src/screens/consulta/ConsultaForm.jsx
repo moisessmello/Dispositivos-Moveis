@@ -23,8 +23,8 @@ export default function ConsultaForm() {
   const [errors, setErrors] = useState({});
   const consultaEditando = route.params?.dados;
   useEffect(() => {
-    if (consultaEditando.id) {
-      setConsulta(route.params.dados);
+    if (consultaEditando) {
+      setConsulta(consultaEditando);
     }
   }, [consultaEditando]);
 

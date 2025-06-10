@@ -17,6 +17,11 @@ export default function ExerciciosScreen({ navigation }) {
     if (stored) setItems(JSON.parse(stored));
   }
 
+  async function saveItems(newItems) {
+    setItems(newItems);
+    await AsyncStorage.setItem("exercicios", JSON.stringify(newItems));
+  }
+
   async function remove(id) {
     Alert.alert('Confirmar', 'Deseja excluir este registro?', [
       { text: 'Cancelar' },

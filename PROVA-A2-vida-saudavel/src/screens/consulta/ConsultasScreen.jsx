@@ -41,19 +41,6 @@ export default function ConsultasScreen({ navigation }) {
     ]);
   }
 
-  async function remove(id) {
-    Alert.alert("Confirmar", "Deseja excluir este registro?", [
-      { text: "Cancelar" },
-      {
-        text: "Excluir",
-        onPress: async () => {
-          const filtered = items.filter((i) => i.id !== id);
-          await saveItems(filtered);
-        },
-      },
-    ]);
-  }
-
   return (
     <View style={{ flex: 1, padding: 10 }}>
       <FlatList
