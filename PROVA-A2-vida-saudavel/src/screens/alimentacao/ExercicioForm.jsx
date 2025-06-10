@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert } from 'react-native';
-import { Text, TextInput, Button, Card, useTheme } from 'react-native-paper';
+import { View, Alert, ScrollView } from 'react-native';
+import { Text, TextInput, Button, Card, useTheme, HelperText } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInputMask } from 'react-native-masked-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -20,6 +20,8 @@ export default function ExercicioForm() {
     descricao: '',
   });
 
+  const [errors, setErrors] = useState({});
+  
   const itemEditando = route.params?.dados || {};
 
   useEffect(() => {
@@ -29,10 +31,7 @@ export default function ExercicioForm() {
   }, [itemEditando]);
 
   const salvar = async () => {
-    if (!exercicio.nome || !exercicio.duracao || !exercicio.data || !exercicio.intensidade || !exercicio.descricao) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos');
-      return;
-    }
+    if (!validate()) return;
 
     const novoExercicio = {
       ...exercicio,
@@ -52,6 +51,23 @@ export default function ExercicioForm() {
     navigation.goBack();
   };
 
+  const validate = () => {
+    const newErrors = {};
+    if (!exercicio.nome) newErrors.nome = 'Nome é obrigatório';
+    if (!exercicio.duracao || isNaN(Number(exercicio.duracao))) newErrors.duracao = 'Duração deve ser um número válido (minutos)';
+    if (!exercicio.data) newErrors.data = 'Data é obrigatória';
+    if (!exercicio.intensidade) newErrors.intensidade = 'Intensidade é obrigatória';
+    if (!exercicio.descricao) newErrors.descricao = 'Descrição é obrigatória';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const inputStyle = {
+    marginBottom: 16,
+    backgroundColor: 'white',
+    borderRadius: 8,
+  };
+
   return (
     <KeyboardAwareScrollView
       style={{ flex: 1, backgroundColor: '#f1f1f1' }}
@@ -61,7 +77,7 @@ export default function ExercicioForm() {
     >
       <View style={{ padding: 20, flex: 1 }}>
         <Text style={{ fontSize: 22, fontWeight: 'bold', marginBottom: 16, color: colors.primary }}>
-          Registrar Exercício
+          {itemEditando.id ? 'Editar Exercício' : 'Registrar Exercício'}
         </Text>
 
         <Card style={{ padding: 16, borderRadius: 12, marginBottom: 24 }}>
@@ -70,10 +86,11 @@ export default function ExercicioForm() {
             label="Nome"
             value={exercicio.nome}
             onChangeText={text => setExercicio({ ...exercicio, nome: text })}
-            style={{ marginBottom: 16 }}
+            error={!!errors.nome}
             mode="outlined"
-            theme={{ roundness: 8 }}
+            style={inputStyle}
           />
+          <HelperText type="error" visible={!!errors.nome}>{errors.nome}</HelperText>
 
           {/* Duração */}
           <TextInput
@@ -81,42 +98,47 @@ export default function ExercicioForm() {
             value={exercicio.duracao}
             onChangeText={text => setExercicio({ ...exercicio, duracao: text })}
             keyboardType="numeric"
+            error={!!errors.duracao}
             mode="outlined"
-            style={{ marginBottom: 16 }}
-            theme={{ roundness: 8 }}
+            style={inputStyle}
           />
+          <HelperText type="error" visible={!!errors.duracao}>{errors.duracao}</HelperText>
 
           {/* Data */}
           <TextInputMask
-            type={'datetime'}
-            options={{ format: 'DD/MM/YYYY' }}
+            type={"datetime"}
+            options={{ format: "DD/MM/YYYY" }}
             value={exercicio.data}
             onChangeText={text => setExercicio({ ...exercicio, data: text })}
-            placeholder="Data"
-            style={{ marginBottom: 16 }}
+            style={inputStyle}
+            placeholder="Data (DD/MM/YYYY)"
+            error={!!errors.data}
+            mode="outlined"
           />
+          <HelperText type="error" visible={!!errors.data}>{errors.data}</HelperText>
 
           {/* Intensidade */}
           <TextInput
             label="Intensidade"
             value={exercicio.intensidade}
             onChangeText={text => setExercicio({ ...exercicio, intensidade: text })}
+            error={!!errors.intensidade}
             mode="outlined"
-            style={{ marginBottom: 16 }}
-            theme={{ roundness: 8 }}
+            style={inputStyle}
           />
+          <HelperText type="error" visible={!!errors.intensidade}>{errors.intensidade}</HelperText>
 
           {/* Descrição */}
           <TextInput
             label="Descrição"
             value={exercicio.descricao}
             onChangeText={text => setExercicio({ ...exercicio, descricao: text })}
+            error={!!errors.descricao}
             mode="outlined"
             multiline
-            numberOfLines={3}
-            style={{ marginBottom: 16 }}
-            theme={{ roundness: 8 }}
+            style={inputStyle}
           />
+          <HelperText type="error" visible={!!errors.descricao}>{errors.descricao}</HelperText>
         </Card>
 
         <Button

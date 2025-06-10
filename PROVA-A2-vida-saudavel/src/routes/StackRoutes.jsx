@@ -1,18 +1,37 @@
-// src/routes/StackRoutes.jsx
+// src/routes/TabRoutes.jsx
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TabRoutes from "./TabRoutes";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AlimentacaoScreen from "../screens/AlimentacaoScreen";
+import ExerciciosScreen from "../screens/ExerciciosScreen";
+import ConsultasScreen from "../screens/ConsultasScreen";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-export default function StackRoutes() {
+export default function TabRoutes() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="HomeTabs" 
-        component={TabRoutes} 
-        options={{ headerShown: false }} 
-      />
-    </Stack.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
+
+          if (route.name === "Alimentação") {
+            iconName = "food-apple";
+          } else if (route.name === "Exercícios") {
+            iconName = "dumbbell";
+          } else if (route.name === "Consultas") {
+            iconName = "calendar-check";
+          }
+
+          return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#6200ee",
+        tabBarInactiveTintColor: "gray",
+      })}
+    >
+      <Tab.Screen name="Alimentação" component={AlimentacaoScreen} />
+      <Tab.Screen name="Exercícios" component={ExerciciosScreen} />
+      <Tab.Screen name="Consultas" component={ConsultasScreen} />
+    </Tab.Navigator>
   );
 }

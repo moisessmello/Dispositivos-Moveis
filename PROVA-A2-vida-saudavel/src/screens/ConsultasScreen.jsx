@@ -19,7 +19,7 @@ export default function ConsultasScreen() {
   const [visible, setVisible] = useState(false);
   const [currentId, setCurrentId] = useState(null);
 
-  const [medico, setMedico] = useState("");
+  const [aluno, setAluno] = useState("");
   const [data, setData] = useState("");
   const [hora, setHora] = useState("");
   const [local, setLocal] = useState("");
@@ -42,7 +42,7 @@ export default function ConsultasScreen() {
   }
 
   function resetForm() {
-    setMedico("");
+    setAluno("");
     setData("");
     setHora("");
     setLocal("");
@@ -54,7 +54,7 @@ export default function ConsultasScreen() {
   function openDialog(item = null) {
     if (item) {
       setCurrentId(item.id);
-      setMedico(item.medico);
+      setAluno(item.aluno);
       setData(item.data);
       setHora(item.hora);
       setLocal(item.local);
@@ -72,7 +72,7 @@ export default function ConsultasScreen() {
 
   function validate() {
     const newErrors = {};
-    if (!medico) newErrors.medico = "Campo obrigatório";
+    if (!aluno) newErrors.aluno = "Campo obrigatório";
     if (!data) newErrors.data = "Campo obrigatório";
     if (!hora) newErrors.hora = "Campo obrigatório";
     if (!local) newErrors.local = "Campo obrigatório";
@@ -88,13 +88,13 @@ export default function ConsultasScreen() {
     if (currentId) {
       newItems = newItems.map((i) =>
         i.id === currentId
-          ? { id: currentId, medico, data, hora, local, descricao }
+          ? { id: currentId, aluno, data, hora, local, descricao }
           : i
       );
     } else {
       newItems.push({
         id: Date.now().toString(),
-        medico,
+        aluno,
         data,
         hora,
         local,
@@ -127,7 +127,7 @@ export default function ConsultasScreen() {
         renderItem={({ item }) => (
           <Card style={{ marginVertical: 5 }}>
             <Card.Content>
-              <Title>{item.medico}</Title>
+              <Title>{item.aluno}</Title>
               <Paragraph>Local: {item.local}</Paragraph>
               <Paragraph>
                 {item.data} às {item.hora}
@@ -149,18 +149,32 @@ export default function ConsultasScreen() {
           <Dialog.Title>{currentId ? "Editar" : "Nova"} Consulta</Dialog.Title>
           <Dialog.ScrollArea>
             <ScrollView contentContainerStyle={{ paddingHorizontal: 24 }}>
+              {/* Campo Aluno */}
               <TextInput
-                label="Médico"
-                value={medico}
-                onChangeText={setMedico}
-                error={!!errors.medico}
+                label="Aluno"
+                value={aluno}
+                onChangeText={setAluno}
+                error={!!errors.aluno}
                 mode="outlined"
-                style={{ marginBottom: 10 }}
+                style={{
+                  marginBottom: 10,
+                  backgroundColor: 'white', // fundo branco
+                }}
+                theme={{
+                  colors: {
+                    primary: '#6200ee',
+                    text: '#000000',
+                    background: 'white',
+                    placeholder: '#000000',
+                    error: 'red',
+                  },
+                }}
               />
-              <HelperText type="error" visible={!!errors.medico}>
-                {errors.medico}
+              <HelperText type="error" visible={!!errors.aluno}>
+                {errors.aluno}
               </HelperText>
 
+              {/* Campo Data com máscara */}
               <TextInputMask
                 type={"datetime"}
                 options={{ format: "DD/MM/YYYY" }}
@@ -169,12 +183,25 @@ export default function ConsultasScreen() {
                 placeholder="Data (DD/MM/AAAA)"
                 mode="outlined"
                 error={!!errors.data}
-                style={{ marginBottom: 10 }}
+                style={{
+                  marginBottom: 10,
+                  backgroundColor: 'white',
+                }}
+                theme={{
+                  colors: {
+                    primary: '#6200ee',
+                    text: '#000000',
+                    background: 'white',
+                    placeholder: '#000000',
+                    error: 'red',
+                  },
+                }}
               />
               <HelperText type="error" visible={!!errors.data}>
                 {errors.data}
               </HelperText>
 
+              {/* Campo Hora com máscara */}
               <TextInputMask
                 type={"custom"}
                 options={{ mask: "99:99" }}
@@ -183,24 +210,50 @@ export default function ConsultasScreen() {
                 placeholder="Hora (HH:MM)"
                 mode="outlined"
                 error={!!errors.hora}
-                style={{ marginBottom: 10 }}
+                style={{
+                  marginBottom: 10,
+                  backgroundColor: 'white',
+                }}
+                theme={{
+                  colors: {
+                    primary: '#6200ee',
+                    text: '#000000',
+                    background: 'white',
+                    placeholder: '#000000',
+                    error: 'red',
+                  },
+                }}
               />
               <HelperText type="error" visible={!!errors.hora}>
                 {errors.hora}
               </HelperText>
 
+              {/* Campo Local */}
               <TextInput
                 label="Local"
                 value={local}
                 onChangeText={setLocal}
                 error={!!errors.local}
                 mode="outlined"
-                style={{ marginBottom: 10 }}
+                style={{
+                  marginBottom: 10,
+                  backgroundColor: 'white',
+                }}
+                theme={{
+                  colors: {
+                    primary: '#6200ee',
+                    text: '#000000',
+                    background: 'white',
+                    placeholder: '#000000',
+                    error: 'red',
+                  },
+                }}
               />
               <HelperText type="error" visible={!!errors.local}>
                 {errors.local}
               </HelperText>
 
+              {/* Campo Descrição */}
               <TextInput
                 label="Descrição"
                 value={descricao}
@@ -208,7 +261,19 @@ export default function ConsultasScreen() {
                 error={!!errors.descricao}
                 mode="outlined"
                 multiline
-                style={{ marginBottom: 10 }}
+                style={{
+                  marginBottom: 10,
+                  backgroundColor: 'white',
+                }}
+                theme={{
+                  colors: {
+                    primary: '#6200ee',
+                    text: '#000000',
+                    background: 'white',
+                    placeholder: '#000000',
+                    error: 'red',
+                  },
+                }}
               />
               <HelperText type="error" visible={!!errors.descricao}>
                 {errors.descricao}

@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 export default function ConsultaForm({ navigation, route }) {
   const [consulta, setConsulta] = useState({
     id: Date.now(),
-    medico: "",
+    aluno: "", // Alterado de 'medico' para 'aluno'
     data: "",
     hora: "",
     local: "",
@@ -24,10 +24,10 @@ export default function ConsultaForm({ navigation, route }) {
   }, [route.params]);
 
   const salvarConsulta = async () => {
-    const { medico, data, hora, local, descricao } = consulta;
+    const { aluno, data, hora, local, descricao } = consulta; // Alterado de 'medico' para 'aluno'
 
     // Verificação de campos obrigatórios
-    if (!medico || !data || !hora || !local || !descricao) {
+    if (!aluno || !data || !hora || !local || !descricao) { // Alterado de 'medico' para 'aluno'
       setErrors({ message: "Todos os campos são obrigatórios!" });
       return;
     }
@@ -61,11 +61,11 @@ export default function ConsultaForm({ navigation, route }) {
         </Text>
 
         <Card style={{ padding: 16, borderRadius: 12, marginBottom: 24, backgroundColor: "#fff" }}>
-          {/* Nome do médico */}
+          {/* Nome do aluno */}
           <TextInput
-            label="Médico"
-            value={consulta.medico}
-            onChangeText={(text) => setConsulta({ ...consulta, medico: text })}
+            label="Aluno"  // Alterado de "Médico" para "Aluno"
+            value={consulta.aluno} // Alterado de 'medico' para 'aluno'
+            onChangeText={(text) => setConsulta({ ...consulta, aluno: text })} // Alterado de 'medico' para 'aluno'
             mode="outlined"
             style={{ marginBottom: 16 }}
           />
