@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Alert, ScrollView } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View } from 'react-native';
 import { Text, TextInput, Button, Card, useTheme, HelperText } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInputMask } from 'react-native-masked-text';
@@ -21,30 +21,29 @@ export default function ExercicioForm() {
   });
 
   const [errors, setErrors] = useState({});
-  
+
   const itemEditando = route.params?.dados || {};
 
   useEffect(() => {
     if (itemEditando.id) {
-      setExercicio(itemEditando);
+      setExercicio({
+        ...itemEditando,
+        duracao: String(itemEditando.duracao),
+      });
     }
   }, [itemEditando]);
 
   const salvar = async () => {
     if (!validate()) return;
 
-    const novoExercicio = {
-      ...exercicio,
-      duracao: Number(exercicio.duracao),
-    };
-
     const stored = await AsyncStorage.getItem('exercicios');
     let items = stored ? JSON.parse(stored) : [];
 
-    if (itemEditando.id) {
-      items = items.map(item => (item.id === exercicio.id ? novoExercicio : item));
+    const index = items.findIndex(item => item.id === exercicio.id);
+    if (index >= 0) {
+      items[index] = exercicio;
     } else {
-      items.push(novoExercicio);
+      items.push(exercicio);
     }
 
     await AsyncStorage.setItem('exercicios', JSON.stringify(items));
@@ -146,12 +145,24 @@ export default function ExercicioForm() {
           onPress={salvar}
           style={{
             borderRadius: 8,
-            paddingVertical: 10,
+            paddingVertical: 5,
             backgroundColor: colors.primary,
           }}
           labelStyle={{ fontSize: 16 }}
         >
           Salvar
+        </Button>
+        <Button
+          mode="contained-tonal"
+          onPress={() => navigation.goBack()}
+          style={{
+            borderRadius: 8,
+            paddingVertical: 5,
+            marginTop: 5
+          }}
+          labelStyle={{ fontSize: 16 }}
+        >
+          Voltar
         </Button>
       </View>
     </KeyboardAwareScrollView>

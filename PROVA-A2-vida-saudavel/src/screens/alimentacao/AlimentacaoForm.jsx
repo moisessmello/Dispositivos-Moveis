@@ -72,7 +72,7 @@ export default function AlimentacaoForm({ navigation, route }) {
         <Card style={{ padding: 16, borderRadius: 12, marginBottom: 24 }}>
           {/* Nome */}
           <TextInput
-            label="Nome do alimento"
+            label="Nome do aluno"
             value={alimentacao.nome}
             onChangeText={text => setAlimentacao({ ...alimentacao, nome: text })}
             style={{ marginBottom: 16, borderRadius: 8 }}
@@ -175,12 +175,24 @@ export default function AlimentacaoForm({ navigation, route }) {
           onPress={salvar}
           style={{
             borderRadius: 8,
-            paddingVertical: 10,
+            paddingVertical: 5,
             backgroundColor: colors.primary,
           }}
           labelStyle={{ fontSize: 16 }}
         >
           Salvar
+        </Button>
+        <Button
+          mode="contained-tonal"
+          onPress={() => navigation.goBack()}
+          style={{
+            borderRadius: 8,
+            paddingVertical: 5,
+            marginTop: 10
+          }}
+          labelStyle={{ fontSize: 16 }}
+        >
+          Voltar
         </Button>
       </View>
     </KeyboardAwareScrollView>

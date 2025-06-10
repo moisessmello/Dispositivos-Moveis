@@ -1,10 +1,9 @@
 // src/routes/TabRoutes.jsx
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import AlimentacaoScreen from "../screens/AlimentacaoScreen";
-import ExerciciosScreen from "../screens/ExerciciosScreen";
-import ConsultasScreen from "../screens/ConsultasScreen";
+import AlimentacaoStack from "./AlimentacaoStack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import ExerciciosStack from "./ExerciciosStack";
+import ConsultasStack from "./ConsultasStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,9 +28,9 @@ export default function TabRoutes() {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="Alimentação" component={AlimentacaoScreen} />
-      <Tab.Screen name="Exercícios" component={ExerciciosScreen} />
-      <Tab.Screen name="Consultas" component={ConsultasScreen} />
+      <Tab.Screen name="Alimentação" component={AlimentacaoStack} />
+      <Tab.Screen name="Exercícios" component={ExerciciosStack} />
+      <Tab.Screen name="Consultas" component={ConsultasStack} />
     </Tab.Navigator>
   );
 }
